@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DIYmicro - Student Projects & Kits</title>
+  <meta name="description" content="DIYmicro provides ready-made and custom student projects with components, circuits, and reports.">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --orange: #ff6600;
+      --navy: #001e3c;
+      --bg: #f4f7fb;
+      --shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: #222;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* HEADER / HERO */
+    header {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(120deg, var(--orange), var(--navy));
+      color: #fff;
+      text-align: center;
+      padding: 5rem 1.2rem 8rem;
+    }
+    header canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    header .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      animation: fadeInUp 1.2s ease-out;
+    }
+    header p.tagline {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-top: 0.6rem;
+      animation: fadeInUp 1.5s ease-out;
+    }
+    .hero-btn {
+      margin-top: 1.5rem;
+      display: inline-block;
+      padding: 0.8rem 1.6rem;
+      background: #fff;
+      color: var(--orange);
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      animation: fadeInUp 1.8s ease-out;
+    }
+    .hero-btn:hover {
+      background: var(--orange);
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(255,102,0,0.4);
+    }
+
+    nav ul {
+      list-style: none;
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      animation: fadeInUp 2s ease-out;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      transition: background 0.3s ease;
+    }
+    nav a:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 3rem 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h2 {
+      text-align: center;
+      color: var(--navy);
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      position: relative;
+    }
+    h2::after {
+      content: '';
+      width: 60px;
+      height: 3px;
+      background: var(--orange);
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    /* ABOUT */
+    #about p {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      line-height: 1.7;
+      color: #333;
+      font-size: 1rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    /* SERVICES */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: rgba(255,255,255,0.9);
+      border-radius: 16px;
+      padding: 1.6rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transform: translateY(30px);
+      opacity: 0;
+      transition: all 0.8s ease, transform 0.4s;
+    }
+    .service-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+    }
+    .service-card h3 {
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+    }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+      gap: 1.4rem;
+    }
+    .project-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      text-align: center;
+      transform: translateY(30px);
+      opacity: 0;
+      transition: all 0.8s ease;
+    }
+    .project-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover img {
+      transform: scale(1.08);
+    }
+    .project-card h3 {
+      margin: 0.8rem 0 0.4rem;
+      color: var(--navy);
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 0.55rem 1rem;
+      background: var(--orange);
+      color: #fff;
+      border-radius: 24px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(255,102,0,0.4);
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s ease, visibility .3s ease;
+      z-index: 2000;
+      padding: 1rem;
+    }
+    .modal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 100%;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+      animation: fadeInUp 0.5s ease;
+      position: relative;
+    }
+
+    /* IMAGE SLIDER */
+    .slider {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      width: 100%;
+      height: 320px; /* fixed height for slider area */
+    }
+    .slides {
+      display: flex;
+      height: 100%;
+      transition: transform 0.4s ease;
+      will-change: transform;
+    }
+    .slides img {
+      width: 100%;
+      min-width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.4);
+      color: #fff;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      padding: 0.4rem 0.8rem;
+      border-radius: 50%;
+    }
+    .slider-btn:hover { background: rgba(0,0,0,0.6); }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    .modal-content h3 {
+      color: var(--orange);
+      margin-bottom: 0.6rem;
+    }
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: #555;
+      font-size: 1.6rem;
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      cursor: pointer;
+    }
+
+    /* CONTACT */
+    #contact p {
+      text-align: center;
+      font-size: 1rem;
+      color: #333;
+      margin: 0.4rem 0;
+    }
+    #contact a {
+      color: var(--orange);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer {
+      background: var(--navy);
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    #whatsapp-chat {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #25D366;
+      color: #fff;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(2,20,40,0.25);
+      transition: transform 0.3s ease;
+      z-index: 1200;
+    }
+    #whatsapp-chat:hover { transform: scale(1.1); }
+
+    /* ANIMATIONS */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <canvas id="waves"></canvas>
+    <div class="hero-content">
+      <h1>DIYmicro</h1>
+      <p class="tagline">Build Smarter. Learn Faster.</p>
+      <a href="#projects" class="hero-btn">Explore Projects</a>
+      <nav>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>At <b>DIYmicro</b>, we provide <b>ready-made and custom student projects</b> for Electrical, Computer, IT, and IoT branches.  
+    We help students turn ideas into real working models — complete with circuits, components, reports, and demonstrations.  
+    You can also request a fully customized project according to your topic. Just share your idea with us on WhatsApp, and we’ll build it for you!</p>
+  </section>
+
+  <section id="services">
+    <h2>Our Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <h3>Ready-Made Projects</h3>
+        <p>Choose from a wide range of working projects for diploma and degree students — with reports and demos.</p>
+      </div>
+      <div class="service-card">
+        <h3>Custom Projects</h3>
+        <p>We design fully customized projects based on your topic and requirements — from idea to final working model.</p>
+      </div>
+      <div class="service-card">
+        <h3>Components & Circuits</h3>
+        <p>We supply project materials, PCBs, and custom-built circuits for your DIY needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Our Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card" data-project="Home Automation" data-desc="The “Home Automation System” is a smart control project designed to operate household electrical devices wirelessly using an ESP32 microcontroller and a 4-channel relay module. The system allows users to control multiple appliances such as lights, fans, and motors remotely through Wi-Fi, via a web interface or voice assistants like Google Assistant and Amazon Alexa.
+This project demonstrates the use of IoT (Internet of Things) technology to create an efficient, user-friendly, and cost-effective automation system. It enhances convenience, energy efficiency, and safety, making it suitable for both home and industrial environments." data-img="electrical1.jpg,electrical2.jpg,electrical3.jpg">
+        <img src="electrical1.jpg" alt="Home Automation">
+        <h3>Electrical Projects</h3>
+        <button class="cta-btn">View More</button>
+      </div>
+      <div class="project-card" data-project="IoT & Automation" data-desc="ESP32-based systems, IoT dashboards, and mobile control projects." data-img="iot1.jpg,iot2.jpg">
+        <img src="iot1.jpg" alt="IoT project">
+        <h3>IoT & Automation</h3>
+        <button class="cta-btn">View More</button>
+      </div>
+      <div class="project-card" data-project="Computer / IT Projects" data-desc="Web, Python, and AI-based mini projects for students." data-img="computer.jpg">
+        <img src="computer.jpg" alt="Computer projects">
+        <h3>Computer / IT</h3>
+        <button class="cta-btn">View More</button>
+      </div>
+      <div class="project-card" data-project="Renewable Energy Projects" data-desc="Solar tracking, panel cleaning, and wind turbine projects." data-img="solar.jpg">
+        <img src="solar.jpg" alt="Renewable energy">
+        <h3>Renewable Energy</h3>
+        <button class="cta-btn">View More</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Email: <a href="mailto:info@diymicro.com">info@diymicro.com</a></p>
+    <p>WhatsApp: <a href="https://wa.me/918799051812?text=Hello%20DIYmicro!%20I%20want%20a%20project." target="_blank">Chat with us</a></p>
+  </section>
+
+  <footer>
+    <p>DIYmicro — Projects Made Simple.</p>
+  </footer>
+
+  <a id="whatsapp-chat" href="https://wa.me/918799051812?text=Hello%20DIYmicro!%20I%20want%20a%20project." target="_blank">💬</a>
+
+  <!-- Modal -->
+  <div class="modal" id="projectModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">×</button>
+      <div class="slider">
+        <div class="slides" id="slides"></div>
+        <button class="slider-btn prev" id="prevBtn">❮</button>
+        <button class="slider-btn next" id="nextBtn">❯</button>
+      </div>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc"></p>
+    </div>
+  </div>
+
+  <script>
+    // Scroll animation
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('#about p, .service-card, .project-card').forEach(el => observer.observe(el));
+
+    // Modal + slider functionality
+    const modal = document.getElementById('projectModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const slidesContainer = document.getElementById('slides');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentIndex = 0;
+
+    document.querySelectorAll('.project-card .cta-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const card = e.target.closest('.project-card');
+        modalTitle.textContent = card.dataset.project;
+        modalDesc.textContent = card.dataset.desc;
+
+        // Build slides
+        slidesContainer.innerHTML = '';
+        const imgs = card.dataset.img ? card.dataset.img.split(',').map(u => u.trim()).filter(Boolean) : [];
+        if (imgs.length === 0) {
+          // fallback single image from card img
+          const fallback = card.querySelector('img');
+          if (fallback) imgs.push(fallback.src);
+        }
+
+        imgs.forEach(src => {
+          const imgEl = document.createElement('img');
+          imgEl.src = src;
+          slidesContainer.appendChild(imgEl);
+        });
+
+        currentIndex = 0;
+        updateSlider();
+        modal.classList.add('open');
+      });
+    });
+
+    function closeModal() { modal.classList.remove('open'); }
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+    prevBtn.onclick = () => {
+      const count = slidesContainer.children.length;
+      if (count === 0) return;
+      currentIndex = (currentIndex > 0) ? currentIndex - 1 : count - 1;
+      updateSlider();
+    };
+    nextBtn.onclick = () => {
+      const count = slidesContainer.children.length;
+      if (count === 0) return;
+      currentIndex = (currentIndex < count - 1) ? currentIndex + 1 : 0;
+      updateSlider();
+    };
+
+    function updateSlider() {
+      slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+      // hide prev/next when only one slide (optional)
+      const count = slidesContainer.children.length;
+      prevBtn.style.display = count > 1 ? 'block' : 'none';
+      nextBtn.style.display = count > 1 ? 'block' : 'none';
+    }
+
+    // Allow keyboard navigation (left/right + Esc close)
+    document.addEventListener('keydown', (e) => {
+      if (!modal.classList.contains('open')) return;
+      if (e.key === 'ArrowLeft') prevBtn.click();
+      if (e.key === 'ArrowRight') nextBtn.click();
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Animated background waves
+    const canvas = document.getElementById('waves');
+    const ctx = canvas.getContext('2d');
+    let w, h, t = 0;
+    function resize() { w = canvas.width = window.innerWidth; h = canvas.height = 400; }
+    window.addEventListener('resize', resize); resize();
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < 3; i++) {
+        ctx.beginPath();
+        const amplitude = 20 + i * 10;
+        const offset = (i * Math.PI) / 2;
+        ctx.moveTo(0, h / 2);
+        for (let x = 0; x < w; x++) {
+          const y = h/2 + Math.sin(x * 0.01 + t + offset) * amplitude * Math.sin(t * 0.3 + i);
+          ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = `rgba(255,255,255,${0.15 * (3 - i)})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+      t += 0.03;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
